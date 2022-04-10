@@ -1,0 +1,53 @@
+import { isObject } from 'lodash-es';
+export function isEmbeddedResource(object) {
+    // Embedded resource doesn't have self link in _links object
+    return !isPagedResourceCollection(object) && !isResourceCollection(object) && isResourceObject(object) && !('self' in object._links);
+}
+export function isResource(object) {
+    return !isPagedResourceCollection(object) && !isResourceCollection(object) && isResourceObject(object) && ('self' in object._links);
+}
+export function isResourceCollection(object) {
+    return isObject(object) &&
+        ('_embedded' in object) &&
+        ('_links' in object) &&
+        !('page' in object) &&
+        (Object.keys(object).length === 2);
+}
+export function isPagedResourceCollection(object) {
+    return isObject(object) &&
+        ('_embedded' in object) &&
+        ('_links' in object) &&
+        ('page' in object) &&
+        (Object.keys(object).length === 3);
+}
+/**
+ * Check that passed object has links property.
+ *
+ * @param object which need to check links property
+ */
+export function isResourceObject(object) {
+    return isObject(object) && ('_links' in object);
+}
+/**
+ * Defining resource type bypassed object.
+ *
+ * @param object that presumably is one of resource type
+ */
+export function getResourceType(object) {
+    if (isEmbeddedResource(object)) {
+        return 'EmbeddedResource';
+    }
+    else if (isResource(object)) {
+        return 'Resource';
+    }
+    else if (isResourceCollection(object)) {
+        return 'ResourceCollection';
+    }
+    else if (isPagedResourceCollection(object)) {
+        return 'PagedResourceCollection';
+    }
+    else {
+        return 'Unknown';
+    }
+}
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoicmVzb3VyY2UtdHlwZS5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL25neC1oYXRlb2FzLWNsaWVudC9zcmMvbGliL21vZGVsL3Jlc291cmNlLXR5cGUudHMiXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IkFBQUEsT0FBTyxFQUFFLFFBQVEsRUFBRSxNQUFNLFdBQVcsQ0FBQztBQUVyQyxNQUFNLFVBQVUsa0JBQWtCLENBQUMsTUFBVztJQUM1Qyw0REFBNEQ7SUFDNUQsT0FBTyxDQUFDLHlCQUF5QixDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsb0JBQW9CLENBQUMsTUFBTSxDQUFDLElBQUksZ0JBQWdCLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxDQUFDLE1BQU0sSUFBSSxNQUFNLENBQUMsTUFBTSxDQUFDLENBQUM7QUFDdkksQ0FBQztBQUVELE1BQU0sVUFBVSxVQUFVLENBQUMsTUFBVztJQUNwQyxPQUFPLENBQUMseUJBQXlCLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxvQkFBb0IsQ0FBQyxNQUFNLENBQUMsSUFBSSxnQkFBZ0IsQ0FBQyxNQUFNLENBQUMsSUFBSSxDQUFDLE1BQU0sSUFBSSxNQUFNLENBQUMsTUFBTSxDQUFDLENBQUM7QUFDdEksQ0FBQztBQUVELE1BQU0sVUFBVSxvQkFBb0IsQ0FBQyxNQUFXO0lBQzlDLE9BQU8sUUFBUSxDQUFDLE1BQU0sQ0FBQztRQUNoQixDQUFDLFdBQVcsSUFBSSxNQUFNLENBQUM7UUFDdkIsQ0FBQyxRQUFRLElBQUksTUFBTSxDQUFDO1FBQ3BCLENBQUMsQ0FBQyxNQUFNLElBQUksTUFBTSxDQUFDO1FBQ25CLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxNQUFNLENBQUMsQ0FBQyxNQUFNLEtBQUssQ0FBQyxDQUFDLENBQUM7QUFDNUMsQ0FBQztBQUVELE1BQU0sVUFBVSx5QkFBeUIsQ0FBQyxNQUFXO0lBQ25ELE9BQU8sUUFBUSxDQUFDLE1BQU0sQ0FBQztRQUNoQixDQUFDLFdBQVcsSUFBSSxNQUFNLENBQUM7UUFDdkIsQ0FBQyxRQUFRLElBQUksTUFBTSxDQUFDO1FBQ3BCLENBQUMsTUFBTSxJQUFJLE1BQU0sQ0FBQztRQUNsQixDQUFDLE1BQU0sQ0FBQyxJQUFJLENBQUMsTUFBTSxDQUFDLENBQUMsTUFBTSxLQUFLLENBQUMsQ0FBQyxDQUFDO0FBQzVDLENBQUM7QUFFRDs7OztHQUlHO0FBQ0gsTUFBTSxVQUFVLGdCQUFnQixDQUFDLE1BQVc7SUFDMUMsT0FBTyxRQUFRLENBQUMsTUFBTSxDQUFDLElBQUksQ0FBQyxRQUFRLElBQUksTUFBTSxDQUFDLENBQUM7QUFDbEQsQ0FBQztBQUVEOzs7O0dBSUc7QUFDSCxNQUFNLFVBQVUsZUFBZSxDQUFDLE1BQVc7SUFDekMsSUFBSSxrQkFBa0IsQ0FBQyxNQUFNLENBQUMsRUFBRTtRQUM5QixPQUFPLGtCQUFrQixDQUFDO0tBQzNCO1NBQU0sSUFBSSxVQUFVLENBQUMsTUFBTSxDQUFDLEVBQUU7UUFDN0IsT0FBTyxVQUFVLENBQUM7S0FDbkI7U0FBTSxJQUFJLG9CQUFvQixDQUFDLE1BQU0sQ0FBQyxFQUFFO1FBQ3ZDLE9BQU8sb0JBQW9CLENBQUM7S0FDN0I7U0FBTSxJQUFJLHlCQUF5QixDQUFDLE1BQU0sQ0FBQyxFQUFFO1FBQzVDLE9BQU8seUJBQXlCLENBQUM7S0FDbEM7U0FBTTtRQUNMLE9BQU8sU0FBUyxDQUFDO0tBQ2xCO0FBQ0gsQ0FBQyIsInNvdXJjZXNDb250ZW50IjpbImltcG9ydCB7IGlzT2JqZWN0IH0gZnJvbSAnbG9kYXNoLWVzJztcclxuXHJcbmV4cG9ydCBmdW5jdGlvbiBpc0VtYmVkZGVkUmVzb3VyY2Uob2JqZWN0OiBhbnkpIHtcclxuICAvLyBFbWJlZGRlZCByZXNvdXJjZSBkb2Vzbid0IGhhdmUgc2VsZiBsaW5rIGluIF9saW5rcyBvYmplY3RcclxuICByZXR1cm4gIWlzUGFnZWRSZXNvdXJjZUNvbGxlY3Rpb24ob2JqZWN0KSAmJiAhaXNSZXNvdXJjZUNvbGxlY3Rpb24ob2JqZWN0KSAmJiBpc1Jlc291cmNlT2JqZWN0KG9iamVjdCkgJiYgISgnc2VsZicgaW4gb2JqZWN0Ll9saW5rcyk7XHJcbn1cclxuXHJcbmV4cG9ydCBmdW5jdGlvbiBpc1Jlc291cmNlKG9iamVjdDogYW55KTogYm9vbGVhbiB7XHJcbiAgcmV0dXJuICFpc1BhZ2VkUmVzb3VyY2VDb2xsZWN0aW9uKG9iamVjdCkgJiYgIWlzUmVzb3VyY2VDb2xsZWN0aW9uKG9iamVjdCkgJiYgaXNSZXNvdXJjZU9iamVjdChvYmplY3QpICYmICgnc2VsZicgaW4gb2JqZWN0Ll9saW5rcyk7XHJcbn1cclxuXHJcbmV4cG9ydCBmdW5jdGlvbiBpc1Jlc291cmNlQ29sbGVjdGlvbihvYmplY3Q6IGFueSk6IGJvb2xlYW4ge1xyXG4gIHJldHVybiBpc09iamVjdChvYmplY3QpICYmXHJcbiAgICAgICAgICgnX2VtYmVkZGVkJyBpbiBvYmplY3QpICYmXHJcbiAgICAgICAgICgnX2xpbmtzJyBpbiBvYmplY3QpICYmXHJcbiAgICAgICAgICEoJ3BhZ2UnIGluIG9iamVjdCkgJiZcclxuICAgICAgICAgKE9iamVjdC5rZXlzKG9iamVjdCkubGVuZ3RoID09PSAyKTtcclxufVxyXG5cclxuZXhwb3J0IGZ1bmN0aW9uIGlzUGFnZWRSZXNvdXJjZUNvbGxlY3Rpb24ob2JqZWN0OiBhbnkpOiBib29sZWFuIHtcclxuICByZXR1cm4gaXNPYmplY3Qob2JqZWN0KSAmJlxyXG4gICAgICAgICAoJ19lbWJlZGRlZCcgaW4gb2JqZWN0KSAmJlxyXG4gICAgICAgICAoJ19saW5rcycgaW4gb2JqZWN0KSAmJlxyXG4gICAgICAgICAoJ3BhZ2UnIGluIG9iamVjdCkgJiZcclxuICAgICAgICAgKE9iamVjdC5rZXlzKG9iamVjdCkubGVuZ3RoID09PSAzKTtcclxufVxyXG5cclxuLyoqXHJcbiAqIENoZWNrIHRoYXQgcGFzc2VkIG9iamVjdCBoYXMgbGlua3MgcHJvcGVydHkuXHJcbiAqXHJcbiAqIEBwYXJhbSBvYmplY3Qgd2hpY2ggbmVlZCB0byBjaGVjayBsaW5rcyBwcm9wZXJ0eVxyXG4gKi9cclxuZXhwb3J0IGZ1bmN0aW9uIGlzUmVzb3VyY2VPYmplY3Qob2JqZWN0OiBhbnkpIHtcclxuICByZXR1cm4gaXNPYmplY3Qob2JqZWN0KSAmJiAoJ19saW5rcycgaW4gb2JqZWN0KTtcclxufVxyXG5cclxuLyoqXHJcbiAqIERlZmluaW5nIHJlc291cmNlIHR5cGUgYnlwYXNzZWQgb2JqZWN0LlxyXG4gKlxyXG4gKiBAcGFyYW0gb2JqZWN0IHRoYXQgcHJlc3VtYWJseSBpcyBvbmUgb2YgcmVzb3VyY2UgdHlwZVxyXG4gKi9cclxuZXhwb3J0IGZ1bmN0aW9uIGdldFJlc291cmNlVHlwZShvYmplY3Q6IGFueSk6IHN0cmluZyB7XHJcbiAgaWYgKGlzRW1iZWRkZWRSZXNvdXJjZShvYmplY3QpKSB7XHJcbiAgICByZXR1cm4gJ0VtYmVkZGVkUmVzb3VyY2UnO1xyXG4gIH0gZWxzZSBpZiAoaXNSZXNvdXJjZShvYmplY3QpKSB7XHJcbiAgICByZXR1cm4gJ1Jlc291cmNlJztcclxuICB9IGVsc2UgaWYgKGlzUmVzb3VyY2VDb2xsZWN0aW9uKG9iamVjdCkpIHtcclxuICAgIHJldHVybiAnUmVzb3VyY2VDb2xsZWN0aW9uJztcclxuICB9IGVsc2UgaWYgKGlzUGFnZWRSZXNvdXJjZUNvbGxlY3Rpb24ob2JqZWN0KSkge1xyXG4gICAgcmV0dXJuICdQYWdlZFJlc291cmNlQ29sbGVjdGlvbic7XHJcbiAgfSBlbHNlIHtcclxuICAgIHJldHVybiAnVW5rbm93bic7XHJcbiAgfVxyXG59XHJcbiJdfQ==

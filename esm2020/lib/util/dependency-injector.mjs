@@ -1,0 +1,17 @@
+/**
+ * Holds dependency injector to allow use ше in internal the lib classes.
+ */
+/* tslint:disable:variable-name */
+export class DependencyInjector {
+    static get(type) {
+        if (this._injector) {
+            return this._injector.get(type);
+        }
+        throw new Error('You need initialize Injector');
+    }
+    static set injector(value) {
+        this._injector = value;
+    }
+}
+DependencyInjector._injector = null;
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJmaWxlIjoiZGVwZW5kZW5jeS1pbmplY3Rvci5qcyIsInNvdXJjZVJvb3QiOiIiLCJzb3VyY2VzIjpbIi4uLy4uLy4uLy4uLy4uL3Byb2plY3RzL25neC1oYXRlb2FzLWNsaWVudC9zcmMvbGliL3V0aWwvZGVwZW5kZW5jeS1pbmplY3Rvci50cyJdLCJuYW1lcyI6W10sIm1hcHBpbmdzIjoiQUFFQTs7R0FFRztBQUNILGtDQUFrQztBQUNsQyxNQUFNLE9BQU8sa0JBQWtCO0lBSTdCLE1BQU0sQ0FBQyxHQUFHLENBQUksSUFBYTtRQUN6QixJQUFJLElBQUksQ0FBQyxTQUFTLEVBQUU7WUFDbEIsT0FBTyxJQUFJLENBQUMsU0FBUyxDQUFDLEdBQUcsQ0FBQyxJQUFJLENBQUMsQ0FBQztTQUNqQztRQUNELE1BQU0sSUFBSSxLQUFLLENBQUMsOEJBQThCLENBQUMsQ0FBQztJQUNsRCxDQUFDO0lBRUQsTUFBTSxLQUFLLFFBQVEsQ0FBQyxLQUFlO1FBQ2pDLElBQUksQ0FBQyxTQUFTLEdBQUcsS0FBSyxDQUFDO0lBQ3pCLENBQUM7O0FBWGMsNEJBQVMsR0FBYSxJQUFJLENBQUMiLCJzb3VyY2VzQ29udGVudCI6WyJpbXBvcnQgeyBJbmplY3RvciwgVHlwZSB9IGZyb20gJ0Bhbmd1bGFyL2NvcmUnO1xyXG5cclxuLyoqXHJcbiAqIEhvbGRzIGRlcGVuZGVuY3kgaW5qZWN0b3IgdG8gYWxsb3cgdXNlINGI0LUgaW4gaW50ZXJuYWwgdGhlIGxpYiBjbGFzc2VzLlxyXG4gKi9cclxuLyogdHNsaW50OmRpc2FibGU6dmFyaWFibGUtbmFtZSAqL1xyXG5leHBvcnQgY2xhc3MgRGVwZW5kZW5jeUluamVjdG9yIHtcclxuXHJcbiAgcHJpdmF0ZSBzdGF0aWMgX2luamVjdG9yOiBJbmplY3RvciA9IG51bGw7XHJcblxyXG4gIHN0YXRpYyBnZXQ8VD4odHlwZTogVHlwZTxUPik6IFQge1xyXG4gICAgaWYgKHRoaXMuX2luamVjdG9yKSB7XHJcbiAgICAgIHJldHVybiB0aGlzLl9pbmplY3Rvci5nZXQodHlwZSk7XHJcbiAgICB9XHJcbiAgICB0aHJvdyBuZXcgRXJyb3IoJ1lvdSBuZWVkIGluaXRpYWxpemUgSW5qZWN0b3InKTtcclxuICB9XHJcblxyXG4gIHN0YXRpYyBzZXQgaW5qZWN0b3IodmFsdWU6IEluamVjdG9yKSB7XHJcbiAgICB0aGlzLl9pbmplY3RvciA9IHZhbHVlO1xyXG4gIH1cclxuXHJcbn1cclxuIl19
